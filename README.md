@@ -161,3 +161,15 @@ Thanks goes to these wonderful people
 This project follows the
 [all-contributors](https://github.com/all-contributors/all-contributors)
 specification. Contributions of any kind welcome!
+
+## Resources
+
+https://nodejs.dev/learn/the-nodejs-fs-module
+
+https://blog.stoplight.io/api-keys-best-practices-to-authenticate-apis
+
+## Usage
+
+- npm install
+- npm link
+- moviedb <command> <option> <flag>
