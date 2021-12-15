@@ -28,18 +28,20 @@ program
     "--page <number>",
     "The page of persons data results to fetch"
   )
-  .action(function handleAction(options) {
+  .action(async function handleAction(options) {
     const spinner = ora("Fetching the persons data...");
-    spinner.start();
-    if (options.popular && options.page) {
-      const url = `https://api.themoviedb.org/3/person/popular?page=${options.page}&api_key=${api_key}`;
+    try {
+      spinner.start();
+      if (options.popular && options.page) {
+        const url = `https://api.themoviedb.org/3/person/popular?page=${options.page}&api_key=${api_key}`;
 
-      getRequestData(url, renderPersons);
-      if (getRequestData) {
+        let res = await getRequestData(url, renderPersons);
         spinner.succeed("Popular Persons data loaded");
-      } else {
-        spinner.fail("Can not download persons data");
+        return res;
       }
+    } catch (err) {
+      spinner.fail("Can not load data");
+      throw err;
     }
   });
 
@@ -47,17 +49,19 @@ program
   .command("get-person")
   .description("Make a network request to fetch the data of a single person")
   .requiredOption("-i, --id <personId>", "The id of the person")
-  .action(function handleAction(options) {
-    const spinner = ora("Fetching the person data...").start();
-    if (options.id) {
-      const url = `https://api.themoviedb.org/3/person/${options.id}?api_key=${api_key}`;
-
-      getRequestData(url, renderPerson);
-      if (getRequestData) {
+  .action(async function handleAction(options) {
+    const spinner = ora("Fetching the person data...");
+    try {
+      spinner.start();
+      if (options.id) {
+        const url = `https://api.themoviedb.org/3/person/${options.id}?api_key=${api_key}`;
+        let res = await getRequestData(url, renderPerson);
         spinner.succeed("Person data loaded");
-      } else {
-        spinner.fail("Can not download person data");
+        return res;
       }
+    } catch (err) {
+      spinner.fail("Can not load data");
+      throw err;
     }
   });
 
@@ -67,23 +71,26 @@ program
   .requiredOption("--page <number>", "The page of movies data results to fetch")
   .option("-p, --popular", "Fetch the popular movies", false)
   .option("-n, --now_playing", "Fetch the movies that are playing now", false)
-  .action(function handleAction(options) {
-    const spinner = ora("Fetching the movies data...").start();
-    if (options.page) {
-      const url = `https://api.themoviedb.org/3/movie/popular?page=${options.page}&api_key=${api_key}`;
+  .action(async function handleAction(options) {
+    const spinner = ora("Fetching the movies data...");
+    try {
+      spinner.start();
+      if (options.page) {
+        const url = `https://api.themoviedb.org/3/movie/popular?page=${options.page}&api_key=${api_key}`;
 
-      getRequestData(url, renderMovies);
-    }
+        let res = await getRequestData(url, renderMovies);
+        spinner.succeed("Movies data loaded");
+        return res;
+      }
+      if (options.now_playing) {
+        const url = `https://api.themoviedb.org/3/movie/now_playing?page=${options.page}&api_key=${api_key}`;
 
-    if (options.now_playing) {
-      const url = `https://api.themoviedb.org/3/movie/now_playing?page=${options.page}&api_key=${api_key}`;
-
-      getRequestData(url, renderMovies);
-    }
-    if (getRequestData) {
-      spinner.succeed("Movies data loaded");
-    } else {
-      spinner.fail("Can not download movies data");
+        let res = await getRequestData(url, renderMovies);
+        return res;
+      }
+    } catch (err) {
+      spinner.fail("Can not load data");
+      throw err;
     }
   });
 
@@ -92,17 +99,19 @@ program
   .description("Make a network request to fetch the data of a single person")
   .requiredOption("-i, --id <movieId>", "The id of the movie")
   .option("-r, --reviews", "Fetch the reviews of the movie")
-  .action(function handleAction(options) {
-    const spinner = ora("Fetching the movie data...").start();
-    if (options.id) {
-      const url = `https://api.themoviedb.org/3/movie/${options.id}?api_key=${api_key}`;
+  .action(async function handleAction(options) {
+    const spinner = ora("Fetching the movie data...");
+    try {
+      spinner.start();
+      if (options.id) {
+        const url = `https://api.themoviedb.org/3/movie/${options.id}?api_key=${api_key}`;
 
-      getRequestData(url, renderMovie);
-      if (getRequestData) {
-        spinner.succeed("Movie data loaded");
-      } else {
-        spinner.fail("Can not download movie data");
+        let res = getRequestData(url, renderMovie);
+        return res;
       }
+    } catch (err) {
+      spinner.fail("Can not load data");
+      throw err;
     }
   });
 

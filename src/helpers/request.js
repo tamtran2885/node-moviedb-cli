@@ -1,6 +1,6 @@
 const https = require("https");
 
-function getRequestData(url, render, spinnerError, spinnerSuccess) {
+function getRequestData(url, render) {
   const req = https.request(url, (res) => {
     let data = "";
     res.on("data", (chunk) => {
