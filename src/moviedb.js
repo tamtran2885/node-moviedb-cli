@@ -29,9 +29,8 @@ program
     "The page of persons data results to fetch"
   )
   .action(async function handleAction(options) {
-    const spinner = ora("Fetching the persons data...");
+    const spinner = ora("Fetching the persons data...").start();
     try {
-      spinner.start();
       if (options.popular && options.page) {
         const url = `https://api.themoviedb.org/3/person/popular?page=${options.page}&api_key=${api_key}`;
 
@@ -49,10 +48,9 @@ program
   .command("get-person")
   .description("Make a network request to fetch the data of a single person")
   .requiredOption("-i, --id <personId>", "The id of the person")
-  .action(async function handleAction(options) {
-    const spinner = ora("Fetching the person data...");
+  .action(async function handleAction(process, options) {
+    const spinner = ora("Fetching the person data...").start();
     try {
-      spinner.start();
       if (options.id) {
         const url = `https://api.themoviedb.org/3/person/${options.id}?api_key=${api_key}`;
         let res = await getRequestData(url, renderPerson);
@@ -73,8 +71,8 @@ program
   .option("-n, --now_playing", "Fetch the movies that are playing now", false)
   .action(async function handleAction(options) {
     const spinner = ora("Fetching the movies data...");
+    spinner.start();
     try {
-      spinner.start();
       if (options.page) {
         const url = `https://api.themoviedb.org/3/movie/popular?page=${options.page}&api_key=${api_key}`;
 
@@ -101,12 +99,12 @@ program
   .option("-r, --reviews", "Fetch the reviews of the movie")
   .action(async function handleAction(options) {
     const spinner = ora("Fetching the movie data...");
+    spinner.start();
     try {
-      spinner.start();
       if (options.id) {
         const url = `https://api.themoviedb.org/3/movie/${options.id}?api_key=${api_key}`;
 
-        let res = getRequestData(url, renderMovie);
+        let res = await getRequestData(url, renderMovie);
         return res;
       }
     } catch (err) {
