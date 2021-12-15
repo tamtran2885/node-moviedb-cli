@@ -14,12 +14,10 @@ See deployment for notes on how to deploy the project on a live system.
 ### The repository
 
 ```
-$ git clone https://github.com/assembler-school/node-moviedb-cli.git
+$ git clone https://github.com/tamtran2885/node-moviedb-cli
 ```
 
 ### Installing
-
-First, you will need to install the dependencies with: `npm install`.
 
 Run the following command in your terminal after cloning the main repo:
 
@@ -41,4 +39,5 @@ $ moviedb <command> <option> <flag>
 ## Resources
 
 [Nodejs-dev](https://nodejs.dev/learn/the-nodejs-fs-module)
+
 [api-key](https://blog.stoplight.io/api-keys-best-practices-to-authenticate-apis)
